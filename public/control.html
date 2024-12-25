@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Room</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="control-room">
+        <h1>Control Room</h1>
+        <input type="text" id="cue-input" placeholder="Send message to Presenter" required>
+        <button id="send-btn">Send Message</button>
+        <div id="feedback" class="feedback"></div>
+        <h2>Latest Control Room Message</h2>
+        <div id="latest-control-message" class="message-display"></div>
+    </div>
+
+    <script>
+        const socket = io();
+
+        document.getElementById('send-btn').onclick = () => {
+            const message = document.getElementById('cue-input').value;
+            if (message.trim() !== "") {
+                // Emit control room message to presenter
+                socket.emit('updateControlMessage', message);
+                document.getElementById('latest-control-message').innerText = message;
+                document.getElementById('feedback').innerText = 'Message sent!';
+                document.getElementById('feedback').style.color = 'green';
+            } else {
+                document.getElementById('feedback').innerText = 'Please enter valid text.';
+                document.getElementById('feedback').style.color = 'red';
+            }
+        };
+    </script>
+</body>
+</html>

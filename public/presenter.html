@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presenter</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="presenter">
+        <h1>Presenter Interface</h1>
+        <h2>Latest Control Room Message</h2>
+        <div id="control-room-message" class="message-display"></div>
+        <h2>Latest Telegram Message</h2>
+        <div id="telegram-message" class="message-display"></div>
+    </div>
+
+    <script>
+        const socket = io();
+
+        // Update the control room message
+        socket.on('controlRoomMessage', (message) => {
+            document.getElementById('control-room-message').innerText = message;
+        });
+
+        // Update the telegram message
+        socket.on('telegramMessage', (message) => {
+            document.getElementById('telegram-message').innerText = message;
+        });
+    </script>
+</body>
+</html>
